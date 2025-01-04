@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Cultware</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #aaa; /* Changed to gray */
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 3rem;
+            text-shadow: 0 0 10px #aaa, 0 0 20px #aaa;
+        }
+
+        .button {
+            display: block;
+            margin: 30px auto;
+            padding: 20px 40px;
+            font-size: 20px;
+            color: #aaa; /* Changed to gray */
+            background: #000;
+            border: 2px solid #aaa; /* Changed to gray */
+            border-radius: 5px;
+            text-align: center;
+            text-shadow: 0 0 5px #aaa; /* Changed to gray */
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(170, 170, 170, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: #aaa; /* Gray hover effect */
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 25px #aaa, 0 0 50px #aaa;
+        }
+
+        /* Small buttons at the bottom */
+        .small-buttons {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .small-button {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #aaa; /* Changed to gray */
+            background: #000;
+            border: 2px solid #aaa; /* Changed to gray */
+            border-radius: 5px;
+            text-shadow: 0 0 5px #aaa; /* Changed to gray */
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(170, 170, 170, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .small-button:hover {
+            background: #aaa; /* Gray hover effect */
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 25px #aaa, 0 0 50px #aaa;
+        }
+
+        /* Matrix rain canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Cultware</h1>
+    <button class="button" onclick="downloadFile()">Download the File</button>
+
+    <!-- Small buttons -->
+    <div class="small-buttons">
+        <button class="small-button" onclick="window.location.href='https://dsc.gg/cultware'">Discord</button>
+        <button class="small-button" onclick="window.location.href='https://youtube.com/realborko'">YouTube</button>
+        <button class="small-button" onclick="window.location.href='https://github.com/517k'">GitHub</button>
+    </div>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Background Music -->
+    <audio autoplay loop style="display: none;">
+        <source src="https://files.catbox.moe/cfqfrp.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // MATRIX RAIN EFFECT
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const ctx = matrixCanvas.getContext('2d');
+
+        // Resize the canvas
+        function resizeCanvas() {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const fontSize = 16;
+        const columns = Math.floor(matrixCanvas.width / fontSize);
+        const drops = Array(columns).fill(0);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            ctx.fillStyle = '#aaa'; // Changed to gray
+            ctx.font = `${fontSize}px Courier New`;
+
+            drops.forEach((y, index) => {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                const x = index * fontSize;
+
+                ctx.fillText(text, x, y * fontSize);
+
+                if (y * fontSize > matrixCanvas.height || Math.random() > 0.975) {
+                    drops[index] = 0;
+                } else {
+                    drops[index]++;
+                }
+            });
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // File Download Function
+        function downloadFile() {
+            const fileUrl = 'https://example.com/your-file.zip';
+            const anchor = document.createElement('a');
+            anchor.href = fileUrl;
+            anchor.download = '';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+        }
+    </script>
+</body>
+</html>
